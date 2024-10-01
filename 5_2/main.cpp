@@ -5,8 +5,10 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <chrono>
 
 using namespace std;
+using namespace chrono;
 
 int global_num_of_phones=0;
 
@@ -67,25 +69,39 @@ void create_file(){
 
 int bin_file_search() {
     string key;
-    int phone_size=11;
-    cout<<"Enter phone number (key)"<<endl;
-    cin>>key;
-    ifstream file_for_search("common_file.bin");
+    cout << "Enter phone number (key): " << endl;
+    cin >> key;
+    auto start_time = high_resolution_clock::now();
+    ifstream file("common_file.bin");
+    vector<string> phoneNumbers;
     string line;
-    int line_number;
-    while (getline(file_for_search, line)) {
-        line_number++;
-        if ((line_number-12)==(global_num_of_phones/2)) {
-            cout<<line<<endl;
-            break;
+    while (getline(file, line)) {
+        phoneNumbers.push_back(line);
+    }
+    file.close();
+    int left = 0;
+    int right = phoneNumbers.size() - 1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (phoneNumbers[mid] == key) {
+            cout << "Phone number found!" << endl;
+            cout << phoneNumbers[mid] << endl;
+            auto end_time =high_resolution_clock::now();
+            duration<double> elapsed = end_time - start_time;
+            cout << "Sorting completed in: " << elapsed.count() << " seconds." << endl;
+            return 0;
+        }
+        else if (phoneNumbers[mid] < key) {
+            left = mid + 1;
+        }
+        else {
+            right = mid - 1;
         }
     }
-    if (line==key) {
-        cout<<"Phone number found!"<<endl;
-        cout<<line<<endl;
-        return 0;
-    }
-    cout<<"Phone number not found!"<<endl;
+    cout << "Phone number not found!    (¬_¬)" << endl;
+    auto end_time =high_resolution_clock::now();
+    duration<double> elapsed = end_time - start_time;
+    cout << "Sorting completed in: " << elapsed.count() << " seconds." << endl;
     return 0;
 }
 
