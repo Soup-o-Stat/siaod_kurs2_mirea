@@ -69,6 +69,7 @@ void create_file(){
 
 int bin_file_search() {
     string key;
+    cout<<"Binary search"<<endl;
     cout << "Enter phone number (key): " << endl;
     cin >> key;
     auto start_time = high_resolution_clock::now();
@@ -105,9 +106,43 @@ int bin_file_search() {
     return 0;
 }
 
+int lin_file_search() {
+    string key;
+    cout<<"Linear search"<<endl;
+    cout << "Enter phone number (key): " << endl;
+    cin >> key;
+    auto start_time = high_resolution_clock::now();
+    ifstream file("common_file.bin");
+    for (int i = 0; i < global_num_of_phones; i++) {
+        string line;
+        getline(file, line);
+        if (line == key) {
+            cout << "Phone number found!" << endl;
+            cout << line << endl;
+            auto end_time =high_resolution_clock::now();
+            duration<double> elapsed = end_time - start_time;
+            cout << "Sorting completed in: " << elapsed.count() << " seconds." << endl;
+            return 0;
+        }
+    }
+    cout << "Phone number not found!" << endl;
+    auto end_time =high_resolution_clock::now();
+    duration<double> elapsed = end_time - start_time;
+    cout << "Sorting completed in: " << elapsed.count() << " seconds." << endl;
+    return 0;
+}
+
 int main() {
+    string mode;
     create_file();
     mega_converter("common_file.txt", "common_file.bin");
-    bin_file_search();
+    cout<<"Enter mode (Linear or Binary)"<<endl;
+    cin>>mode;
+    if (mode == "Linear") {
+        lin_file_search();
+    }
+    if (mode == "Binary") {
+        bin_file_search();
+    }
     return 0;
 }
