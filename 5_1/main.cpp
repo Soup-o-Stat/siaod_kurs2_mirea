@@ -28,7 +28,7 @@ void task1_c() {
     cout<<"Result: "<<endl;
     for(int i=0;i<=n;i++) {
         cout<<((x&maska)>>(n-i));
-        maska=maska>>1
+        maska=maska>>1;
     }
     cout<<endl;
 }
