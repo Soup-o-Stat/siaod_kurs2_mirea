@@ -38,25 +38,67 @@ void task1_c() {
     cout<<endl;
 }
 
+
 void task2_a() {
-    vector <int> numbers={};
-    for (int i=0;i<8;i++) {
-        int number_to_push=0;
-        cout<<"Enter number: "<<endl;
-        cin>>number_to_push;
-        numbers.push_back(number_to_push);
-    }
-    for (int i=0;i<numbers.size();i++) {
-        cout<<numbers[i];
-    }
-    cout<<endl;
-    unsigned int binnum=0;
-    for (int i=0;i<8;i++) {
-        binnum|=(1<<numbers[i]);
-        cout<<binnum<<endl;
-    }
+    vector<int> numbers = {};
+    unsigned char bit_array = 0;
 
+    for (int i = 0; i < 8; i++) {
+        int number_to_push = 0;
+        cout << "Enter number between 0 and 7: " << endl;
+        cin >> number_to_push;
+        if (number_to_push < 0 || number_to_push > 7) {
+            cout << "Invalid number! Must be between 0 and 7." << endl;
+            i--;
+        }
+        else {
+            numbers.push_back(number_to_push);
+            bit_array |= (1 << number_to_push);
+        }
+    }
+    cout << "Input numbers: ";
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+    cout << "Sorted numbers: ";
+    for (int i = 0; i < 8; i++) {
+        if (bit_array & (1 << i)) {
+            cout << i << " ";
+        }
+    }
+    cout << endl;
+}
 
+void task2_b() {
+    vector<int> numbers = {};
+    unsigned long long bit_array = 0;
+
+    for (int i = 0; i < 64; i++) {
+        int number_to_push = 0;
+        cout << "Enter number between 0 and 63: " << endl;
+        cin >> number_to_push;
+        if (number_to_push < 0 || number_to_push > 63) {
+            cout << "Invalid number! Must be between 0 and 63." << endl;
+            i--;
+        }
+        else {
+            numbers.push_back(number_to_push);
+            bit_array |= (1 << number_to_push);
+        }
+    }
+    cout << "Input numbers: ";
+    for (int i = 0; i < numbers.size(); i++) {
+        cout << numbers[i] << " ";
+    }
+    cout << endl;
+    cout << "Sorted numbers: ";
+    for (int i = 0; i < 64; i++) {
+        if (bit_array & (1 << i)) {
+            cout << i << " ";
+        }
+    }
+    cout << endl;
 }
 
 int main() {
@@ -64,7 +106,8 @@ int main() {
     // task1_b();
     // task1_c();
 
-    task2_a();
+    //task2_a();
+    task2_b();
 
     return 0;
 }
