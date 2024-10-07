@@ -7,8 +7,11 @@
 #include <set>
 #include <unordered_set>
 #include <fstream>
+#include <random>
+#include <chrono>
 
 using namespace std;
+using namespace chrono;
 
 void task1_a() {
     unsigned int x;
@@ -130,29 +133,52 @@ void task2_c() {
 }
 
 void task3() {
-    srand(static_cast<unsigned int>(time(0)));
     ofstream file_for_input("input.txt");
-    unordered_set<int> unique_numbers;
-    int max_num = 100000;
-    while (unique_numbers.size() < max_num) {
-        int num_to_push = rand() % max_num;
-        unique_numbers.insert(num_to_push);
+    int max_num = 10000000;
+    vector<int> numbers(max_num);
+    for (int i = 0; i < max_num; ++i) {
+        numbers[i] = i;
     }
-    for (const int& num : unique_numbers) {
-        file_for_input << num <<endl;
+    random_device rd;
+    mt19937 g(rd());
+    shuffle(numbers.begin(), numbers.end(), g);
+    for (const int& num : numbers) {
+        file_for_input << num << endl;
     }
     file_for_input.close();
-    cout<<"File for input has been created"<<endl;
+    cout << "File has been created"<< endl;
+    auto start_time = high_resolution_clock::now();
+    ifstream input_file("input.txt");
+    ofstream output_file("output.txt");
+    vector<int> bit_array(max_num, 0);
+    int num;
+    while (input_file >> num) {
+        if (num>=0 && num<max_num) {
+            bit_array[num] = 1;
+        }
+    }
+    input_file.close();
+    for (int i = 0; i < max_num; ++i) {
+        if (bit_array[i]) {
+            output_file<<i<<endl;
+        }
+    }
+    output_file.close();
+    auto end_time = high_resolution_clock::now();
+    duration<double> duration = end_time - start_time;
+    cout<<"File has been created! Data has been sorted! Time: "<<duration.count()<<endl;
+    size_t memory_usage = bit_array.size() / 8;
+    cout << "Memory used by bit array: " << memory_usage << " bytes" << endl;
 }
 
 int main() {
-    // task1_a();
-    // task1_b();
-    // task1_c();
+    task1_a();
+    task1_b();
+    task1_c();
 
-    //task2_a();
-    //task2_b();
-    //task2_c();
+    task2_a();
+    task2_b();
+    task2_c();
 
     task3();
 
