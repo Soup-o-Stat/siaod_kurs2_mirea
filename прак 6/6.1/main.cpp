@@ -5,7 +5,7 @@
 using namespace std;
 
 const int INITIAL_SIZE = 7;
-const double LOAD_FACTOR_THRESHOLD = 0.75;
+const double LOAD_FACTOR_THRESHOLD = 0.7;
 
 struct Product {
     int code;
