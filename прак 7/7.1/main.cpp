@@ -66,6 +66,20 @@ int findHeight(TreeNode* root) {
 	return max(leftHeight, rightHeight) + 1;
 }
 
+void printTree(TreeNode* root, int depth = 0) {
+	if (root == nullptr) {
+		return;
+	}
+	printTree(root->right, depth + 1);
+
+	for (int i = 0; i < depth; i++) {
+		cout << "    ";
+	}
+	cout << root->name << endl;
+
+	printTree(root->left, depth + 1);
+}
+
 void deleteTree(TreeNode* root) {
 	if (root != nullptr) {
 		deleteTree(root->left);
@@ -80,12 +94,13 @@ void menu() {
 	string name;
 
 	do {
-		cout << "1. Input element"<<endl;;
-		cout << "2. Reverse bypass"<<endl;
-		cout << "3. Symmetric bypass"<<endl;
-		cout << "4. Find the length of the path to the value"<<endl;
-		cout << "5. Find tree height"<<endl;
-		cout << "6. Exit"<<endl;
+		cout << "1. Input element" << endl;
+		cout << "2. Reverse bypass" << endl;
+		cout << "3. Symmetric bypass" << endl;
+		cout << "4. Find the length of the path to the value" << endl;
+		cout << "5. Find tree height" << endl;
+		cout << "6. Print tree" << endl;
+		cout << "7. Exit" << endl;
 		cin >> choice;
 
 		switch (choice) {
@@ -93,7 +108,7 @@ void menu() {
 			cout << "Input name: ";
 			cin >> name;
 			root = insertNode(root, name);
-			cout << "Element has been added"<<endl;;
+			cout << "Element has been added" << endl;
 			break;
 		case 2:
 			cout << "Reverse bypass: ";
@@ -113,18 +128,22 @@ void menu() {
 			if (length != -1) {
 				cout << "The length of the path to " << name << ": " << length << endl;
 			} else {
-				cout << "The value was not found in the tree"<<endl;
+				cout << "The value was not found in the tree" << endl;
 			}
 			break;
 		case 5:
 			cout << "Tree height: " << findHeight(root) << endl;
 			break;
 		case 6:
+			cout << "Tree structure:" << endl;
+			printTree(root);
+			break;
+		case 7:
 			break;
 		default:
-			cout << "Error"<<endl;
+			cout << "Error" << endl;
 		}
-	} while (choice != 6);
+	} while (choice != 7);
 
 	deleteTree(root);
 }
