@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -29,14 +30,21 @@ bool isValidSequence(const string& seq) {
 
 int countSequencesBruteForce(int n) {
     int count = 0;
-    int limit = 1 << n;
+    int limit = pow(2, n);
 
     for (int i = 0; i < limit; i++) {
         string seq;
-        for (int j = 0; j < n; j++)
-            seq = ((i >> j) & 1 ? '1' : '0') + seq;
-        if (isValidSequence(seq))
+        int num = i;
+        for (int j = 0; j < n; j++) {
+            if (num % 2 == 0)
+                seq = '0' + seq;
+            else
+                seq = '1' + seq;
+            num /= 2;
+        }
+        if (isValidSequence(seq)) {
             ++count;
+        }
     }
     return count;
 }
